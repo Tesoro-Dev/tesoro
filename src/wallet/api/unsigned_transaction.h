@@ -35,7 +35,7 @@
 #include <vector>
 
 
-namespace Monero {
+namespace Tesoro {
 
 class WalletImpl;
 class UnsignedTransactionImpl : public UnsignedTransaction
@@ -72,4 +72,4 @@ private:
 
 }
 
-namespace Bitmonero = Monero;
+namespace Bitmonero = Tesoro;

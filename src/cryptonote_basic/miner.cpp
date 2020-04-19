@@ -83,9 +83,6 @@ using namespace epee;
 
 #include "miner.h"
 
-
-extern "C" void slow_hash_allocate_state();
-extern "C" void slow_hash_free_state();
 namespace cryptonote
 {
 
@@ -102,13 +99,13 @@ namespace cryptonote
   }
 
 
-  miner::miner(i_miner_handler* phandler, const get_block_hash_t &gbh):m_stop(1),
+  miner::miner(i_miner_handler* phandler, Blockchain* pbc):m_stop(1),
     m_template{},
     m_template_no(0),
     m_diffic(0),
     m_thread_index(0),
     m_phandler(phandler),
-    m_gbh(gbh),
+    m_pbc(pbc),
     m_height(0),
     m_threads_active(0),
     m_pausers_count(0),
@@ -471,23 +468,6 @@ namespace cryptonote
     return true;
   }
   //-----------------------------------------------------------------------------------------------------
-  bool miner::find_nonce_for_given_block(const get_block_hash_t &gbh, block& bl, const difficulty_type& diffic, uint64_t height)
-  {
-    for(; bl.nonce != std::numeric_limits<uint32_t>::max(); bl.nonce++)
-    {
-      crypto::hash h;
-      gbh(bl, height, diffic <= 100 ? 0 : tools::get_max_concurrency(), h);
-
-      if(check_hash(h, diffic))
-      {
-        bl.invalidate_hashes();
-        return true;
-      }
-    }
-    bl.invalidate_hashes();
-    return false;
-  }
-  //-----------------------------------------------------------------------------------------------------
   void miner::on_synchronized()
   {
     if(m_do_mining)
@@ -529,7 +509,7 @@ namespace cryptonote
     difficulty_type local_diff = 0;
     uint32_t local_template_ver = 0;
     block b;
-    slow_hash_allocate_state();
+    crypto::rx_slow_hash_allocate_state();
     ++m_threads_active;
     while(!m_stop)
     {
@@ -572,7 +552,7 @@ namespace cryptonote
 
       b.nonce = nonce;
       crypto::hash h;
-      m_gbh(b, height, tools::get_max_concurrency(), h);
+      get_block_longhash(m_pbc, b, h, height, tools::get_max_concurrency());
 
       if(check_hash(h, local_diff))
       {
@@ -594,7 +574,7 @@ namespace cryptonote
       ++m_hashes;
       ++m_total_hashes;
     }
-    slow_hash_free_state();
+    crypto::rx_slow_hash_free_state();
     MGINFO("Miner thread stopped ["<< th_local_index << "]");
     --m_threads_active;
     return true;

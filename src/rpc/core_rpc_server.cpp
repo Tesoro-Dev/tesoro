@@ -858,7 +858,7 @@ namespace cryptonote
               return true;
             }
             const cryptonote::blobdata pruned = ss.str();
-            const crypto::hash prunable_hash = tx.version == 1 ? crypto::null_hash : get_transaction_prunable_hash(tx);
+            const crypto::hash prunable_hash = get_transaction_prunable_hash(tx);
             sorted_txs.push_back(std::make_tuple(h, pruned, prunable_hash, std::string(i->tx_blob, pruned.size())));
             missed_txs.erase(std::find(missed_txs.begin(), missed_txs.end(), h));
             pool_tx_hashes.insert(h);
@@ -1235,7 +1235,7 @@ namespace cryptonote
     res.is_background_mining_enabled = lMiner.get_is_background_mining_enabled();
     store_difficulty(m_core.get_blockchain_storage().get_difficulty_for_next_block(), res.difficulty, res.wide_difficulty, res.difficulty_top64);
     
-    res.block_target = m_core.get_blockchain_storage().get_current_hard_fork_version() < 2 ? DIFFICULTY_TARGET_V1 : DIFFICULTY_TARGET_V2;
+    res.block_target = DIFFICULTY_TARGET;
     if ( lMiner.is_mining() ) {
       res.speed = lMiner.get_speed();
       res.threads_count = lMiner.get_threads_count();
@@ -1245,15 +1245,10 @@ namespace cryptonote
     if (lMiner.is_mining() || lMiner.get_is_background_mining_enabled())
       res.address = get_account_address_as_str(nettype(), false, lMiningAdr);
     const uint8_t major_version = m_core.get_blockchain_storage().get_current_hard_fork_version();
-    const unsigned variant = major_version >= 7 ? major_version - 6 : 0;
-    switch (variant)
+    switch (major_version)
     {
-      case 0: res.pow_algorithm = "Cryptonight"; break;
-      case 1: res.pow_algorithm = "CNv1 (Cryptonight variant 1)"; break;
-      case 2: case 3: res.pow_algorithm = "CNv2 (Cryptonight variant 2)"; break;
-      case 4: case 5: res.pow_algorithm = "CNv4 (Cryptonight variant 4)"; break;
-      case 6: res.pow_algorithm = "RandomX"; break;
-      default: res.pow_algorithm = "I'm not sure actually"; break;
+      case 1: res.pow_algorithm = "Cryptonight"; break;
+      default: res.pow_algorithm = "RandomX"; break;
     }
     if (res.is_background_mining_enabled)
     {
@@ -1791,73 +1786,6 @@ namespace cryptonote
     return true;
   }
   //------------------------------------------------------------------------------------------------------------------------------
-  bool core_rpc_server::on_generateblocks(const COMMAND_RPC_GENERATEBLOCKS::request& req, COMMAND_RPC_GENERATEBLOCKS::response& res, epee::json_rpc::error& error_resp, const connection_context *ctx)
-  {
-    RPC_TRACKER(generateblocks);
-
-    CHECK_CORE_READY();
-    
-    res.status = CORE_RPC_STATUS_OK;
-
-    if(m_core.get_nettype() != FAKECHAIN)
-    {
-      error_resp.code = CORE_RPC_ERROR_CODE_REGTEST_REQUIRED;
-      error_resp.message = "Regtest required when generating blocks";      
-      return false;
-    }
-
-    COMMAND_RPC_GETBLOCKTEMPLATE::request template_req;
-    COMMAND_RPC_GETBLOCKTEMPLATE::response template_res;
-    COMMAND_RPC_SUBMITBLOCK::request submit_req;
-    COMMAND_RPC_SUBMITBLOCK::response submit_res;
-
-    template_req.reserve_size = 1;
-    template_req.wallet_address = req.wallet_address;
-    template_req.prev_block = req.prev_block;
-    submit_req.push_back(std::string{});
-    res.height = m_core.get_blockchain_storage().get_current_blockchain_height();
-
-    for(size_t i = 0; i < req.amount_of_blocks; i++)
-    {
-      bool r = on_getblocktemplate(template_req, template_res, error_resp, ctx);
-      res.status = template_res.status;
-      template_req.prev_block.clear();
-      
-      if (!r) return false;
-
-      blobdata blockblob;
-      if(!string_tools::parse_hexstr_to_binbuff(template_res.blocktemplate_blob, blockblob))
-      {
-        error_resp.code = CORE_RPC_ERROR_CODE_WRONG_BLOCKBLOB;
-        error_resp.message = "Wrong block blob";
-        return false;
-      }
-      block b;
-      if(!parse_and_validate_block_from_blob(blockblob, b))
-      {
-        error_resp.code = CORE_RPC_ERROR_CODE_WRONG_BLOCKBLOB;
-        error_resp.message = "Wrong block blob";
-        return false;
-      }
-      b.nonce = req.starting_nonce;
-      miner::find_nonce_for_given_block([this](const cryptonote::block &b, uint64_t height, unsigned int threads, crypto::hash &hash) {
-        return cryptonote::get_block_longhash(&(m_core.get_blockchain_storage()), b, hash, height, threads);
-      }, b, template_res.difficulty, template_res.height);
-
-      submit_req.front() = string_tools::buff_to_hex_nodelimer(block_to_blob(b));
-      r = on_submitblock(submit_req, submit_res, error_resp, ctx);
-      res.status = submit_res.status;
-
-      if (!r) return false;
-
-      res.blocks.push_back(epee::string_tools::pod_to_hex(get_block_hash(b)));
-      template_req.prev_block = res.blocks.back();
-      res.height = template_res.height;
-    }
-
-    return true;
-  }
-  //------------------------------------------------------------------------------------------------------------------------------
   uint64_t core_rpc_server::get_block_reward(const block& blk)
   {
     uint64_t reward = 0;
@@ -2254,7 +2182,6 @@ namespace cryptonote
     uint8_t version = req.version > 0 ? req.version : blockchain.get_next_hard_fork_version();
     res.version = blockchain.get_current_hard_fork_version();
     res.enabled = blockchain.get_hard_fork_voting_info(version, res.window, res.votes, res.threshold, res.earliest_height, res.voting);
-    res.state = blockchain.get_hard_fork_state();
     res.status = CORE_RPC_STATUS_OK;
     return true;
   }
@@ -2634,7 +2561,7 @@ namespace cryptonote
       return true;
     }
 
-    static const char software[] = "monero";
+    static const char software[] = "tesoro";
 #ifdef BUILD_TAG
     static const char buildtag[] = BOOST_PP_STRINGIZE(BUILD_TAG);
     static const char subdir[] = "cli";

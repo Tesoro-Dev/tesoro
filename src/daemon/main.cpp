@@ -1,3 +1,4 @@
+// Copyright (c) 2018-2020, The NERVA Project
 // Copyright (c) 2014-2019, The Monero Project
 //
 // All rights reserved.
@@ -147,6 +148,7 @@ int main(int argc, char const * argv[])
 
       // Hidden options
       command_line::add_arg(hidden_options, daemon_args::arg_command);
+      command_line::add_arg(hidden_options, daemon_args::arg_create_genesis_tx);
 
       visible_options.add(core_settings);
       all_options.add(visible_options);
@@ -172,16 +174,16 @@ int main(int argc, char const * argv[])
 
     if (command_line::get_arg(vm, command_line::arg_help))
     {
-      std::cout << "Monero '" << MONERO_RELEASE_NAME << "' (v" << MONERO_VERSION_FULL << ")" << ENDL << ENDL;
+      std::cout << "Tesoro '" << MONERO_RELEASE_NAME << "' (v" << MONERO_VERSION_FULL << ")" << ENDL << ENDL;
       std::cout << "Usage: " + std::string{argv[0]} + " [options|settings] [daemon_command...]" << std::endl << std::endl;
       std::cout << visible_options << std::endl;
       return 0;
     }
 
-    // Monero Version
+    // Tesoro Version
     if (command_line::get_arg(vm, command_line::arg_version))
     {
-      std::cout << "Monero '" << MONERO_RELEASE_NAME << "' (v" << MONERO_VERSION_FULL << ")" << ENDL;
+      std::cout << "Tesoro '" << MONERO_RELEASE_NAME << "' (v" << MONERO_VERSION_FULL << ")" << ENDL;
       return 0;
     }
 
@@ -190,6 +192,32 @@ int main(int argc, char const * argv[])
     {
       std::cout << "OS: " << tools::get_os_version_string() << ENDL;
       return 0;
+    }
+
+    bool gb = command_line::get_arg(vm, daemon_args::arg_create_genesis_tx);
+
+    if (gb)
+    {
+      cryptonote::transaction tx;
+
+      bool r = construct_genesis_tx(tx);
+      CHECK_AND_ASSERT_MES(r, false, "Failed to create genesis tx");
+
+      std::stringstream ss;
+      binary_archive<true> ba(ss);
+      std::string tx_hex = string_tools::buff_to_hex_nodelimer(tx_to_blob(tx));
+      r = do_serialize(ba, tx);
+      CHECK_AND_ASSERT_MES(r, false, "Failed to serialize tx");
+
+      std::string tx_bl;
+      cryptonote::transaction tx2;
+      r = string_tools::parse_hexstr_to_binbuff(tx_hex, tx_bl);
+      CHECK_AND_ASSERT_MES(r, false, "Failed to parse hexstr to binbuff");
+      r = parse_and_validate_tx_from_blob(tx_bl, tx2);
+      CHECK_AND_ASSERT_MES(r, false, "Failed to parse validate tx");
+
+      LOG_PRINT_L0(ENDL << "New Genesis TX:" << ENDL << tx_hex);
+      return r;
     }
 
     std::string config = command_line::get_arg(vm, daemon_args::arg_config_file);
@@ -268,7 +296,7 @@ int main(int argc, char const * argv[])
       tools::set_max_concurrency(command_line::get_arg(vm, daemon_args::arg_max_concurrency));
 
     // logging is now set up
-    MGINFO("Monero '" << MONERO_RELEASE_NAME << "' (v" << MONERO_VERSION_FULL << ")");
+    MGINFO("Tesoro '" << MONERO_RELEASE_NAME << "' (v" << MONERO_VERSION_FULL << ")");
 
     // If there are positional options, we're running a daemon command
     {

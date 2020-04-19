@@ -34,7 +34,7 @@
 
 #include <vector>
 
-namespace Monero {
+namespace Tesoro {
   
 SubaddressAccount::~SubaddressAccount() {}
   

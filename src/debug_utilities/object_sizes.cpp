@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2019, The Monero Project
+// Copyright (c) 2017-2019, The Tesoro Project
 //
 // All rights reserved.
 //
@@ -110,12 +110,12 @@ int main(int argc, char* argv[])
   SL(tools::wallet2::unsigned_tx_set);
   SL(tools::wallet2::signed_tx_set);
 
-  SL(Monero::WalletImpl);
-  SL(Monero::AddressBookRow);
-  SL(Monero::TransactionInfoImpl);
-  SL(Monero::TransactionHistoryImpl);
-  SL(Monero::PendingTransactionImpl);
-  SL(Monero::UnsignedTransactionImpl);
+  SL(Tesoro::WalletImpl);
+  SL(Tesoro::AddressBookRow);
+  SL(Tesoro::TransactionInfoImpl);
+  SL(Tesoro::TransactionHistoryImpl);
+  SL(Tesoro::PendingTransactionImpl);
+  SL(Tesoro::UnsignedTransactionImpl);
 
   return 0;
 }

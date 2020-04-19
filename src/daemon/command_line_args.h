@@ -1,3 +1,4 @@
+// Copyright (c) 2018-2020, The NERVA Project
 // Copyright (c) 2014-2019, The Monero Project
 // 
 // All rights reserved.
@@ -35,7 +36,7 @@
 
 namespace daemon_args
 {
-  std::string const WINDOWS_SERVICE_NAME = "Monero Daemon";
+  std::string const WINDOWS_SERVICE_NAME = "Tesoro Daemon";
 
   const command_line::arg_descriptor<std::string, false, true, 2> arg_config_file = {
     "config-file"
@@ -85,6 +86,11 @@ namespace daemon_args
   const command_line::arg_descriptor<std::vector<std::string>> arg_command = {
     "daemon_command"
   , "Hidden"
+  };
+  const command_line::arg_descriptor<bool> arg_create_genesis_tx = {
+    "create-genesis-tx"
+  , "You shouldn't need help"
+  , false
   };
   const command_line::arg_descriptor<bool> arg_os_version = {
     "os-version"

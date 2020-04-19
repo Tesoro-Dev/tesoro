@@ -1,5 +1,5 @@
 /// @file
-/// @author rfree (current maintainer in monero.cc project)
+/// @author rfree (current maintainer in tesoro.cc project)
 /// @brief base for connection, contains e.g. the ratelimit hooks
 
 // Copyright (c) 2014-2019, The Monero Project

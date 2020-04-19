@@ -1437,7 +1437,7 @@ namespace hw {
       log_hexbuffer("generate_output_ephemeral_keys: [[OUT]] out_eph_public_key ", out_eph_public_key_x.data, 32);
       #endif
 
-      ASSERT_X(tx_version > 1, "TX version not supported"<<tx_version);
+      ASSERT_X(tx_version > 0, "TX version not supported"<<tx_version);
 
       // make additional tx pubkey if necessary
       cryptonote::keypair additional_txkey;
@@ -1494,7 +1494,6 @@ namespace hw {
       offset = 0;
       unsigned int recv_len = this->length_recv;
       
-      //if (tx_version > 1)
       {
         ASSERT_X(recv_len>=32, "Not enought data from device");
         crypto::secret_key scalar1;
