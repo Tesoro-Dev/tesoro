@@ -33,13 +33,13 @@ blockchain thus bringing decentralization and fair distribution of supply to its
 ### Technical Features of Tesoro (TSX)
 
 ```
- Block Size – Dynamic
- Block Time – 60 Seconds
- Coin Supply - 14,716,800 (No Pre-mine)
- Mining Algorithm – RandomX
- Block Reward – 4 Coins per Block
- Block Reward Halving – Every 4 Years or 2,102,400 Blocks
- Other Features – Anonymous Transactions, ASIC Resistant
+• Block Size – Dynamic
+• Block Time – 60 Seconds
+• Coin Supply - 14,716,800 (No Pre-mine)
+• Mining Algorithm – RandomX
+• Block Reward – 4 Coins per Block
+• Block Reward Halving – Every 4 Years or 2,102,400 Blocks
+• Other Features – Anonymous Transactions, ASIC Resistant
 ```
 ### Coin Emission and Distribution
 
