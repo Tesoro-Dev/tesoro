@@ -7,7 +7,8 @@ Copyright (c) 2019-2020 The Tesoro Project.
 Portions Copyright (c) 2012-2013 The Cryptonote developers.
 
 
-Tesoro (TSX)
+
+# Tesoro (TSX)
 
 Tesoro (TSX) is a decentralized cryptocurrency based on PoW consensus that uses RandomX
 algorithm which favours CPU powered PCs over GPUs allowing average users to be a part of the
@@ -17,7 +18,7 @@ code in Tesoro grants compatibility along with high security and privacy feature
 Tesoro Project was initiated by a group of independent of developers spread out through many
 different countries to develop the Tesoro (TSX) cryptocurrency.
 
-Purpose and Use-case of Tesoro (TSX)
+# Purpose and Use-case of Tesoro (TSX)
 
 Blockfinex is a cryptocurrency trading and exchange platform built upon a lightning fast execution
 engine. For the ease of its users to use trading fee discounts, community rewards, community
@@ -29,7 +30,7 @@ developers behind Blockfinex exchange decided to develop Tesoro (TSX) as its nat
 cryptocurrency since its integral properties help users themselves participate in nurturing the
 blockchain thus bringing decentralization and fair distribution of supply to its network.
 
-Technical Features of Tesoro (TSX)
+# Technical Features of Tesoro (TSX)
 
 ```
  Block Size – Dynamic
@@ -40,7 +41,7 @@ Technical Features of Tesoro (TSX)
  Block Reward Halving – Every 4 Years or 2,102,400 Blocks
  Other Features – Anonymous Transactions, ASIC Resistant
 ```
-Coin Emission and Distribution
+# Coin Emission and Distribution
 
 References: https://github.com/tevador/RandomX
 
