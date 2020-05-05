@@ -595,6 +595,7 @@ namespace nodetool
   }
 
   //-----------------------------------------------------------------------------------
+  // SEED NODES
   template<class t_payload_net_handler>
   std::set<std::string> node_server<t_payload_net_handler>::get_seed_nodes(cryptonote::network_type nettype) const
   {
@@ -610,8 +611,9 @@ namespace nodetool
     }
     else
     {
-      full_addrs.insert("144.91.109.172:55551");
-      full_addrs.insert("144.91.109.173:55551");
+      full_addrs.insert("144.91.97.197:55551"); //GERMANY S0
+      full_addrs.insert("144.91.97.217:55551"); //GERMANY S2
+      full_addrs.insert("54.39.187.250:55551"); //CANADA S3 
     }
     return full_addrs;
   }
