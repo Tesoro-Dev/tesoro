@@ -48,11 +48,11 @@ References: https://github.com/tevador/RandomX
 https://github.com/monero-project/research-lab/blob/master/whitepaper/whitepaper.pdf
 
 ```
-Emission Plan Emission (TSX) Total Supply (TSX)
-4 TSX/ Block until Blockheight 2,102,400 8,409,600 8,409,
-2 TSX/ Block until Blockheight 4,204,800 4,204,800 12,614,
-1 TSX/ Block until Blockheight 6,307,200 2,102,400 14,716,
-0.5 TSX/ Block from Blockheight 6,307,201 on adding 262,800 TSX/ year to Total Supply
+Emission Plan | Emission (TSX) | Total Supply (TSX)
+4 TSX/ Block until Blockheight 2,102,400 | 8,409,600 | 8,409,600
+2 TSX/ Block until Blockheight 4,204,800 | 4,204,800 | 12,614,400
+1 TSX/ Block until Blockheight 6,307,200 | 2,102,400 | 14,716,800
+0.5 TSX/ Block from Blockheight 6,307,201 onwards adding 262,800 TSX/ year to Total Supply
 ```
 
 
