@@ -15,7 +15,7 @@ algorithm which favours CPU powered PCs over GPUs allowing average users to be a
 creation and maintenance of its blockchain and network and also using modified Monero source
 code in Tesoro grants compatibility along with high security and privacy features.
 
-Tesoro Project was initiated by a group of independent of developers spread out through many
+TesoroDev was initiated as a group of independent of developers spread out through many
 different countries to develop the Tesoro (TSX) cryptocurrency.
 
 ### Purpose and Use-case of Tesoro (TSX)
