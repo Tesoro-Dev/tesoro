@@ -52,7 +52,9 @@ Emission Plan | Emission (TSX) | Total Supply (TSX)
 0.5 TSX/ Block from Blockheight 6,307,201 onwards adding 262,800 TSX/ year to Total Supply
 ```
 
-**RPC commands** for CLI [**Wallet**](https://web.getmonero.org/resources/developer-guides/wallet-rpc.html) & [**Daemon**](https://web.getmonero.org/resources/developer-guides/daemon-rpc.html)
+#### CLI RPC Commands
+[**Wallet**](https://web.getmonero.org/resources/developer-guides/wallet-rpc.html) | 
+[**Daemon**](https://web.getmonero.org/resources/developer-guides/daemon-rpc.html)
 
 References:
 
