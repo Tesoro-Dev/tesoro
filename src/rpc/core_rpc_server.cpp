@@ -2430,6 +2430,19 @@ namespace cryptonote
     return true;
   }
   //------------------------------------------------------------------------------------------------------------------------------
+  bool core_rpc_server::on_get_generated_coins(const COMMAND_RPC_GET_GENERATED_COINS::request& req, COMMAND_RPC_GET_GENERATED_COINS::response& res, epee::json_rpc::error& error_resp, const connection_context *ctx)
+  {
+    PERF_TIMER(on_get_generated_coins);
+    CHECK_CORE_READY();
+    uint64_t h = req.height;
+    if (h == 0)
+      h = m_core.get_current_blockchain_height() - 1;
+    uint64_t c = m_core.get_blockchain_storage().get_db().get_block_already_generated_coins(h);
+    res.coins = c;
+    res.status = CORE_RPC_STATUS_OK;
+    return true;
+  }
+  //------------------------------------------------------------------------------------------------------------------------------
   bool core_rpc_server::on_get_base_fee_estimate(const COMMAND_RPC_GET_BASE_FEE_ESTIMATE::request& req, COMMAND_RPC_GET_BASE_FEE_ESTIMATE::response& res, epee::json_rpc::error& error_resp, const connection_context *ctx)
   {
     RPC_TRACKER(get_base_fee_estimate);
