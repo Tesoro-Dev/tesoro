@@ -23,11 +23,11 @@ different countries to develop the Tesoro (TSX) cryptocurrency.
 
 Blockfinex is a cryptocurrency trading and exchange platform built upon a lightning fast execution
 engine. For the ease of its users to use trading fee discounts, community rewards, community
-incentives, online payments etc. a native currency was proposed to be used within the exchange as
+incentives, online payments etc. a new currency was proposed to be used within the exchange as
 well as to be utilized as a measure of online payments outside the exchange.
 
 Unlike a token issued using smart contracts where a handful of people take control of the supply,
-developers behind Blockfinex exchange decided to develop Tesoro (TSX) as its native
+developers behind Blockfinex exchange decided to develop Tesoro (TSX) as a new
 cryptocurrency since its integral properties help users themselves participate in nurturing the
 blockchain thus bringing decentralization and fair distribution of supply to its network.
 
